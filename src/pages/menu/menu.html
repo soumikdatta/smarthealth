@@ -1,0 +1,23 @@
+<ion-menu [content]="mycontent">
+  
+      <ion-content>
+          <ion-list>
+            <p style="text-align:center;">Menu</p>
+               <button ion-item menuClose (click)="openPage(profilePage)">
+                <ion-icon name="person">&nbsp;&nbsp;Profile</ion-icon>
+              </button>
+              <button ion-item menuClose (click)="openPage(imagePage)">
+                  <ion-icon name="image">&nbsp;&nbsp;Change Image</ion-icon>
+              </button>
+              <button ion-item menuClose (click)="openPage(loginPage)">
+                  <ion-icon name="log-in">&nbsp;&nbsp;Login</ion-icon>
+              </button>
+              <button ion-item menuClose (click)="logout()">
+                  <ion-icon ios="ios-log-out" md="ios-log-out">&nbsp;&nbsp;Logout</ion-icon>
+              </button>
+          </ion-list>
+      </ion-content>
+  
+  </ion-menu>
+  
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>

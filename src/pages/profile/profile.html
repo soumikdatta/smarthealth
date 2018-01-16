@@ -1,0 +1,41 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar hideBackButton>
+    <ion-icon style="padding-left:2rem" name="menu" menuToggle left></ion-icon>
+    <ion-title>
+<!--        <div class="mybuttonclass" tappable (click)="logout()">
+           <img align=right src="http://localhost/smarthealth/icons/switch.png" width="20">
+          <img align=right src="http://ef3be81e.ngrok.io/smarthealth/icons/switch.png" width="20">
+            <ion-icon style="align:right" name="log-out"></ion-icon>
+        </div>
+ -->        Profile
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <img style="align-items:center; margin: auto; display: block;" src="http://ef3be81e.ngrok.io/smarthealth/profile_pic/ITS-032_mistu.jpg" width="150">
+  <ion-item>
+    Patient ID: <ion-input value="Patient ID" #PID readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    Name: <ion-input value="Name" #PNAME readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    Address: <ion-input value="Address" #PADD readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    Email: <ion-input value="Email" #PEMAIL readonly></ion-input>
+  </ion-item>
+  <ion-item>
+    Phone: <ion-input value="Phone" #PPH readonly></ion-input>
+  </ion-item>
+</ion-content>
