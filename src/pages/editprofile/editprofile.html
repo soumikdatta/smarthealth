@@ -2,27 +2,34 @@
   <ion-navbar hideBackButton>
     <ion-icon style="padding-left:2rem" ios="ios-grid" md="md-grid" menuToggle left></ion-icon>
     <ion-title>
-        Profile
+        Edit Profile
     </ion-title>
   </ion-navbar>
 
 </ion-header>
 <!-- <ion-nav id="nav" #content [root]="rootPage"></ion-nav>
  --> 
-<ion-content padding>
-  <img src="{{pathForImage(lastImage)}}" style="width: 100%" [hidden]="lastImage === null">
-  <h3 [hidden]="lastImage !== null">Please Select Image!</h3>
+ <ion-content padding class="profile">
+  <!--     <img style="align-items:center; margin: auto; display: block;" src="http://ef3be81e.ngrok.io/smarthealth/profile_pic/ITS-032_mistu.jpg" width="150"> -->
+    <img #PIMG style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{getImage()}}" width="150">
+    <form [formGroup]="editProfileForm" (ngSubmit)="saveProfile()">
+      <ion-item>
+        Patient ID: <ion-input value="Patient ID" #PID readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      Name: <ion-input type="text" formControlName="name" value="Name" #PNAME ></ion-input>
+    </ion-item>
+    <ion-item>
+      Address: <ion-input type="text" formControlName="address" value="Address" #PADD ></ion-input>
+    </ion-item>
+    <ion-item>
+      Email: <ion-input type="text" formControlName="email" value="Email" #PEMAIL ></ion-input>
+    </ion-item>
+    <ion-item>
+      Phone: <ion-input type="text" formControlName="phone" value="Phone" #PPH ></ion-input>
+    </ion-item>
+    <button ion-button block type="submit" [disabled]="!editProfileForm.valid">
+      <ion-icon name="archive"></ion-icon>&nbsp;&nbsp;&nbsp;Save
+    </button>
+  </form>
 </ion-content>
- 
-<ion-footer>
-  <ion-toolbar color="primary">
-    <ion-buttons>
-      <button ion-button icon-left (click)="presentActionSheet()">
-        <ion-icon name="camera"></ion-icon>Select Image
-      </button>
-      <button ion-button icon-left (click)="uploadImage()" [disabled]="lastImage === null">
-        <ion-icon name="cloud-upload"></ion-icon>Upload
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>

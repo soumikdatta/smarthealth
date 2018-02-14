@@ -5,8 +5,9 @@ import { Storage } from '@ionic/storage';
 import * as GlobalVars from '../../helper/globalvars';
 import { LoadingController } from 'ionic-angular';
 import {HttpClient } from '@angular/common/http';
-import { HomePage } from '../home/home';
-import { ProfilePage } from '../profile/profile';
+//import { HomePage } from '../home/home';
+import { RegisterPage } from '../register/register';
+//import { ProfilePage } from '../profile/profile';
 import { MenuPage } from '../menu/menu';
 import 'rxjs/Rx';
 
@@ -25,6 +26,9 @@ import 'rxjs/Rx';
 export class LoginPage {
 
   @ViewChild('submit') submit;
+//  @ViewChild('LSTAT') LSTAT;
+
+  public LSTAT:any;
   
   private loginForm : FormGroup=new FormGroup({controllername:new FormControl()});
   private loginAuthURL="";
@@ -47,8 +51,8 @@ export class LoginPage {
         console.log(val);
         if(val==GlobalVars.access_type_profile)
         {
-          console.log("Profile Flow");
-          this.navCtrl.push(ProfilePage);          
+          console.log("Profile Flow through Menu");
+          this.navCtrl.push(MenuPage);          
         }
         else
         {
@@ -62,7 +66,7 @@ export class LoginPage {
   
   loginAuth(){
     
-    this.loginAuthURL=GlobalVars.END_POINT_GET_LOGIN_AUTH.concat("?user_id=".concat(this.loginForm.value.userId.toUpperCase()));
+    this.loginAuthURL=GlobalVars.END_POINT_GET_LOGIN_AUTH + "?user_id=" + this.loginForm.value.userId.toUpperCase() + "&user_type=PATIENT";
     console.log(this.loginAuthURL);
 /*    let loader = this.loadingCtrl.create({
       content: "Please wait...",
@@ -71,6 +75,7 @@ export class LoginPage {
     this.httpClient.get(this.loginAuthURL).map((res: Response) => res).subscribe(data => {
       
         let jsonData:string=JSON.stringify(data);
+        console.log(jsonData);
 //        this.storage.set(GlobalVars.patient_profile_storage_key,jsonData);  
           let myData = JSON.parse(jsonData);
           console.log("LoginAuth Response",myData.records[0].password);
@@ -84,34 +89,35 @@ export class LoginPage {
           content: "Please wait...",
         });
   */      
-          this.storage.get(GlobalVars.patient_profile_storage_key).then(val=>
-          {
-            //console.log('storage',val);
-            if(val==null){
-              this.getPatientURL = GlobalVars.END_POINT_GET_PATIENT_PROFILE.concat("?patient_id=".concat(myData.records[0].patient_id));
-              console.log(this.getPatientURL);
-              this.httpClient.get(this.getPatientURL).map((res: Response) => res).subscribe(data => {
-              
-                let jsonData:string=JSON.stringify(data);
-                this.storage.set(GlobalVars.patient_profile_storage_key,jsonData);  
-                console.log("patientProfile",jsonData);
-                this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_profile);
-                this.navCtrl.push(MenuPage);
-              });
-            }else{
+          //console.log('storage',val);
+            this.getPatientURL = GlobalVars.END_POINT_GET_PATIENT_PROFILE.concat("?patient_id=".concat(myData.records[0].patient_id));
+            console.log(this.getPatientURL);
+            this.httpClient.get(this.getPatientURL).map((res: Response) => res).subscribe(data => {
+            
+              let jsonData:string=JSON.stringify(data);
+              this.storage.set(GlobalVars.patient_profile_storage_key,jsonData);  
+              console.log("patientProfile",jsonData);
               this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_profile);
-              console.log("Profile already exist");
+              console.log("Menu from Login");
               this.navCtrl.push(MenuPage);
-            }
-        });
-  //      this.navCtrl.push(ProfilePage);
+            });
+//      this.navCtrl.push(ProfilePage);
       }
       else
       {
         
         console.log('Login failed');
+        this.LSTAT = "Wrong User ID / Password \n";
       }
     });
+  }
+
+  gotoRegister(){
+    this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_register);
+  
+        this.navCtrl.push(RegisterPage);
+
+    
   }
 
 }

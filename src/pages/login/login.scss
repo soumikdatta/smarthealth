@@ -1,8 +1,11 @@
 page-login {
     .vertical-align-content > *
     {
-         display: flex!important;
-         align-content: center!important;
-         align-items: center!important;
+        display: flex!important;
+        align-content: center!important;
+        align-items: center!important;
+        background-image: url('../assets/imgs/login.jpg');
+        background-size: cover;
     }
+
 }

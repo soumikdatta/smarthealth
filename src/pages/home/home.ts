@@ -6,9 +6,10 @@ import { LoadingController } from 'ionic-angular';
 import {HttpClient } from '@angular/common/http';
 import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
-import { ProfilePage } from '../profile/profile';
+//import { ProfilePage } from '../profile/profile';
 import { EditprofilePage } from '../editprofile/editprofile';
 import { MenuPage } from '../menu/menu';
+import { MymapPage } from '../mymap/mymap';
 import 'rxjs/Rx';
 
 @Component({
@@ -20,7 +21,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, private storage:Storage,
     private httpClient:HttpClient,public loadingCtrl: LoadingController) {
 
-    storage.get(GlobalVars.access_type_key).then(val=>
+      storage.get(GlobalVars.access_type_key).then(val=>
       {
        
         console.log(val);
@@ -36,8 +37,13 @@ export class HomePage {
         }
         else if(val==GlobalVars.access_type_profile)
         {
-          console.log("Profile Flow");
+          console.log("Profile Flow through Menu");
           this.gotoProfile();
+        }
+        else if(val==GlobalVars.access_type_map)
+        {
+          console.log("Map Page");
+          this.gotoMap();
         }
       });
       
@@ -75,9 +81,9 @@ export class HomePage {
               this.storage.set(GlobalVars.patient_profile_storage_key,jsonData);  
               console.log("patientProfile",jsonData);
             });
-            this.navCtrl.push(ProfilePage);
+            this.navCtrl.push(MenuPage);
           }else{
-          this.navCtrl.push(ProfilePage);
+          this.navCtrl.push(MenuPage);
           }
       });
     }
@@ -88,10 +94,10 @@ export class HomePage {
   
       
     }
-    gotoMenu(){
-      this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_home);
+    gotoMap(){
+      this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_map);
     
-          this.navCtrl.push(MenuPage);
+          this.navCtrl.push(MymapPage);
   
       
     }

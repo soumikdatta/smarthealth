@@ -25,6 +25,8 @@ import 'rxjs/Rx';
 })
 export class RegisterPage {
 
+  public RSTAT: any;
+
   private registrationForm : FormGroup=new FormGroup({controllername:new FormControl()});
 //  private getPatientURL="";
   private profileConfig : ProfileConfig;
@@ -83,16 +85,28 @@ export class RegisterPage {
       
       })
       .subscribe( data => {
-        console.log('Registration saved',data);
+        
+        if(JSON.parse(data).patient_id != "BLANK")
+        {
+          console.log('Registration saved',data);
 //        this.storage.set(GlobalVars.patient_profile_storage_key,profileConfigJson);
-        loader.dismiss();
-        this.gotoMainPage();    
+          loader.dismiss();
+          this.gotoMainPage();
+        }
+        else
+        {
+          loader.dismiss();
+          console.log(profileConfigJson);
+          console.log('Could not save Registration!',data);
+          this.RSTAT = "Could not save Registration! " + JSON.parse(data).message;
+        }
       },
         // Errors will call this callback instead:
         err => {
           loader.dismiss();
           console.log(profileConfigJson);
           console.log('Could not save Registration!',err);
+          this.RSTAT = "Could not save Registration! " + err;
         }
       );
       //console.log(JSON.stringify(this.ambulanceConfig));
@@ -107,7 +121,7 @@ export class RegisterPage {
     this.profileConfig.patient_address = this.registrationForm.value.address;
     this.profileConfig.patient_email = this.registrationForm.value.email;
     this.profileConfig.patient_phone = this.registrationForm.value.phone;
-    this.profileConfig.user_id = this.registrationForm.value.userId;
+    this.profileConfig.user_id = this.registrationForm.value.userId.toUpperCase();
     this.profileConfig.password = this.registrationForm.value.password;
     
   }

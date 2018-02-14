@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import {HttpClientModule} from '@angular/common/http';
+import { GoogleMaps } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
@@ -22,12 +24,16 @@ import { ProfilePageModule } from '../pages/profile/profile.module';
 import { EditprofilePage } from '../pages/editprofile/editprofile';
 import { EditprofilePageModule } from '../pages/editprofile/editprofile.module';
 import { MenuPage } from '../pages/menu/menu';
+import { MymapPage } from '../pages/mymap/mymap';
+import { ChangepicPage } from '../pages/changepic/changepic';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    MenuPage
+    MenuPage,
+    MymapPage,
+    ChangepicPage
   ],
   imports: [
     BrowserModule,
@@ -47,7 +53,9 @@ import { MenuPage } from '../pages/menu/menu';
     RegisterPage,
     ProfilePage,
     EditprofilePage,
-    MenuPage
+    MenuPage,
+    MymapPage,
+    ChangepicPage
   ],
   providers: [
     StatusBar,
@@ -56,6 +64,8 @@ import { MenuPage } from '../pages/menu/menu';
     Transfer,
     Camera,
     FilePath,
+    GoogleMaps,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

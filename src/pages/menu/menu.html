@@ -1,18 +1,22 @@
 <ion-menu [content]="mycontent">
   
-      <ion-content>
+      <ion-content class="stable-bg has-expanded-header menu">
           <ion-list>
-            <p style="text-align:center;">Menu</p>
-               <button ion-item menuClose (click)="openPage(profilePage)">
+            <img #PIMG style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{getImage()}}" width="50">
+            <p style="text-align:center; color:antiquewhite;">Menu</p>
+               <button ion-item menuClose style="background-color:aqua;" (click)="openPage(profilePage)">
                 <ion-icon name="person">&nbsp;&nbsp;Profile</ion-icon>
               </button>
-              <button ion-item menuClose (click)="openPage(imagePage)">
-                  <ion-icon name="image">&nbsp;&nbsp;Change Image</ion-icon>
+              <button ion-item menuClose style="background-color:blueviolet;" (click)="openPage(editprofilePage)">
+                  <ion-icon name="ios-card">&nbsp;&nbsp;Edit Profile</ion-icon>
               </button>
-              <button ion-item menuClose (click)="openPage(loginPage)">
-                  <ion-icon name="log-in">&nbsp;&nbsp;Login</ion-icon>
+              <button ion-item menuClose style="background-color:rgb(37, 179, 91);" (click)="openPage(changepicPage)">
+                <ion-icon name="image">&nbsp;&nbsp;Change Image</ion-icon>
               </button>
-              <button ion-item menuClose (click)="logout()">
+              <button ion-item menuClose style="background-color:rgb(37, 122, 179);" (click)="openPage(searchPage)">
+                <ion-icon name="image">&nbsp;&nbsp;Search Doctor</ion-icon>
+              </button>
+              <button ion-item menuClose style="background-color:rgb(212, 35, 168);" (click)="logout()">
                   <ion-icon ios="ios-log-out" md="ios-log-out">&nbsp;&nbsp;Logout</ion-icon>
               </button>
           </ion-list>

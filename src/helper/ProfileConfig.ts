@@ -6,6 +6,7 @@ export class ProfileConfig{
     public patient_address:string;
     public patient_email:string;
     public patient_phone:string;
+    public patient_photo:string;
     public isActive:boolean;
 	public user_id:string;
 	public password:string;
