@@ -6,7 +6,9 @@ export const access_type_login='LOGIN';
 export const access_type_register='REGISTER';
 export const access_type_profile='PROFILE';
 export const access_type_map='MAP';
+export const access_type_booking='BOOKING';
 export const patient_profile_storage_key="patientProfile";
+export const booking_info_storage_key="bookingInformation";
 
 /*
 export const vehicle_type_bus='BUS';
@@ -67,6 +69,10 @@ export const END_POINT_GET_PATIENT_PROFILE = WORKING_SERVER + "api/profile/read_
 export const END_POINT_SEND_REGISTRATION_DATA = WORKING_SERVER + "api/register/register_patient.php";
 export const END_POINT_SEND_PROFILE_DATA = WORKING_SERVER + "api/profile/edit_patient.php";
 export const END_POINT_GET_DOCTOR_SEARCH = WORKING_SERVER + "api/search/search_doctor.php";
+export const END_POINT_SEND_BOOKING_DATA = WORKING_SERVER + "api/booking/booking.php";
+export const END_POINT_GET_BOOKING_NOW_DATA = WORKING_SERVER + "api/booking/booking_now.php";
+export const END_POINT_GET_BOOKING_OLD_DATA = WORKING_SERVER + "api/booking/booking_old.php";
+export const END_POINT_GET_ALL_SPECIALITIES = WORKING_SERVER + "api/search/getSpeciality.php";
 
 /*
 export const END_POINT_SEND_VEHICLE_DATA = "http://115.119.200.83:15080/app/dataPusher";

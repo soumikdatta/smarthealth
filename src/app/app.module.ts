@@ -7,6 +7,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import {HttpClientModule} from '@angular/common/http';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
@@ -24,16 +25,29 @@ import { ProfilePageModule } from '../pages/profile/profile.module';
 import { EditprofilePage } from '../pages/editprofile/editprofile';
 import { EditprofilePageModule } from '../pages/editprofile/editprofile.module';
 import { MenuPage } from '../pages/menu/menu';
+import { MymenuPage } from '../pages/mymenu/mymenu';
 import { MymapPage } from '../pages/mymap/mymap';
 import { ChangepicPage } from '../pages/changepic/changepic';
+import { BookingPage } from '../pages/booking/booking';
+import { BookinginitiatePage } from '../pages/bookinginitiate/bookinginitiate';
+import { TabsPage } from '../pages/tabs/tabs';
+import { BookingnowPage } from '../pages/bookingnow/bookingnow';
+import { BookingoldPage } from '../pages/bookingold/bookingold';
+
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     MenuPage,
+    MymenuPage,
     MymapPage,
-    ChangepicPage
+    ChangepicPage,
+    BookingPage,
+    BookinginitiatePage,
+    TabsPage,
+    BookingnowPage,
+    BookingoldPage
   ],
   imports: [
     BrowserModule,
@@ -54,12 +68,20 @@ import { ChangepicPage } from '../pages/changepic/changepic';
     ProfilePage,
     EditprofilePage,
     MenuPage,
+    MymenuPage,
     MymapPage,
-    ChangepicPage
+    ChangepicPage,
+    BookingPage,
+    BookinginitiatePage,
+    TabsPage,
+    BookingnowPage,
+    BookingoldPage
   ],
   providers: [
+    Diagnostic,
     StatusBar,
     SplashScreen,
+    IonicStorageModule,
     File,
     Transfer,
     Camera,
