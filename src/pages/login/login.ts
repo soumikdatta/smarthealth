@@ -9,6 +9,7 @@ import {HttpClient } from '@angular/common/http';
 import { RegisterPage } from '../register/register';
 //import { ProfilePage } from '../profile/profile';
 import { MenuPage } from '../menu/menu';
+import { MymenuPage } from '../mymenu/mymenu';
 import 'rxjs/Rx';
 
 /**
@@ -52,7 +53,7 @@ export class LoginPage {
         if(val==GlobalVars.access_type_profile)
         {
           console.log("Profile Flow through Menu");
-          this.navCtrl.push(MenuPage);          
+          this.navCtrl.push(MymenuPage);          
         }
         else
         {
@@ -99,7 +100,7 @@ export class LoginPage {
               console.log("patientProfile",jsonData);
               this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_profile);
               console.log("Menu from Login");
-              this.navCtrl.push(MenuPage);
+              this.navCtrl.push(MymenuPage);
             });
 //      this.navCtrl.push(ProfilePage);
       }

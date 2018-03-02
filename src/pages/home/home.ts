@@ -9,6 +9,7 @@ import { RegisterPage } from '../register/register';
 //import { ProfilePage } from '../profile/profile';
 import { EditprofilePage } from '../editprofile/editprofile';
 import { MenuPage } from '../menu/menu';
+import { MymenuPage } from '../mymenu/mymenu';
 import { MymapPage } from '../mymap/mymap';
 import 'rxjs/Rx';
 
@@ -81,9 +82,9 @@ export class HomePage {
               this.storage.set(GlobalVars.patient_profile_storage_key,jsonData);  
               console.log("patientProfile",jsonData);
             });
-            this.navCtrl.push(MenuPage);
+            this.navCtrl.push(MymenuPage);
           }else{
-          this.navCtrl.push(MenuPage);
+          this.navCtrl.push(MymenuPage);
           }
       });
     }

@@ -83,7 +83,7 @@ export class EditprofilePage {
                 this.PEMAIL.value=myData.records[0].patient_email;
                 this.PPH.value=myData.records[0].patient_phone;
 //                console.log(GlobalVars.WORKING_SERVER);
-				this.PPHOTO = myData.records[0].patient_photo;
+				        this.PPHOTO = myData.records[0].patient_photo;
                 this.PIMG=GlobalVars.WORKING_SERVER.concat("profile_pic/") + myData.records[0].patient_photo;
 //                this.PIMG.src=GlobalVars.WORKING_SERVER.concat("profile_pic/");
 //                console.log(this.PIMG);

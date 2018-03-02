@@ -1,5 +1,7 @@
 page-mymap {
       #map {
-        height: 100%;
+        height: 80%;
+        background-image: url('../assets/imgs/loading-wheel.gif');
+        background-size: cover;
       }
 }

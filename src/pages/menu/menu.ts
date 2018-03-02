@@ -9,6 +9,8 @@ import { ProfilePage } from '../profile/profile';
 import { EditprofilePage } from '../editprofile/editprofile';
 import { ChangepicPage } from '../changepic/changepic';
 import { MymapPage } from '../mymap/mymap';
+//import { BookingPage } from '../booking/booking';
+import { TabsPage } from '../tabs/tabs';
 
 
 @Component({
@@ -24,6 +26,7 @@ export class MenuPage {
   private editprofilePage;
   private changepicPage;
   private searchPage;
+  private bookingPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
     this.rootPage = ProfilePage;
@@ -32,7 +35,8 @@ export class MenuPage {
     this.editprofilePage = EditprofilePage;
     this.changepicPage = ChangepicPage;
     this.searchPage = MymapPage;
-
+    //this.bookingPage = BookingPage;
+    this.bookingPage = TabsPage;
 
   }
 

@@ -10,12 +10,16 @@
 */
 import { Component,ViewChild, ElementRef } from '@angular/core';
 import { Content, IonicPage, NavController, Platform, NavParams } from 'ionic-angular';
+import {FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Storage } from '@ionic/storage';
+import { Diagnostic } from '@ionic-native/diagnostic';
 import * as GlobalVars from '../../helper/globalvars';
 //import { LoadingController } from 'ionic-angular';
+import {HttpHeaders } from '@angular/common/http';
 import {HttpClient } from '@angular/common/http';
-import { concat } from 'rxjs/observable/concat';
+import { BookinginitiatePage } from '../bookinginitiate/bookinginitiate';
+import { FilterConfig } from '../../helper/FilterConfig';
 
 /**
  * Generated class for the MymapPage page.
@@ -35,84 +39,109 @@ export class MymapPage {
   
   @ViewChild("map") mapRef: ElementRef;
   @ViewChild(Content) content: Content;
+  @ViewChild("filter") filter;
+  @ViewChild("facilityList") mylist;
+  @ViewChild("filterBtn") filterBtn;
   map: any;
   list: any;
   private watch;
-  private lat:number=0;
-  private lon:number=0;
+  private lat;
+  private lon;
   private location:any;
-  private distance_value:number=1;
+  private distance_value:number=15;
   public edited = false;
   public FACILITY_NAME: any;
   public facility: any;
   private options;
+  private speciality;
+  private markers = [];
+  private myMarker = [];
+  public server = GlobalVars.WORKING_SERVER.concat("profile_pic/");
 
-  constructor(public navCtrl: NavController, public platform: Platform, public navParams: NavParams, 
-    private storage: Storage, private geolocation:Geolocation, private httpClient:HttpClient) {
+  private filterForm : FormGroup=new FormGroup({controllername:new FormControl()});
+
+  private filterConfig : FilterConfig;
+
+  constructor(public navCtrl: NavController, private diagnostic: Diagnostic, public platform: Platform, 
+    public navParams: NavParams, private storage: Storage, private geolocation:Geolocation, 
+    private formBuilder: FormBuilder, private httpClient:HttpClient) {
+
+/*constructor(public navCtrl: NavController, public platform: Platform, 
+  public navParams: NavParams, private storage: Storage, private geolocation:Geolocation, 
+  private formBuilder: FormBuilder, private httpClient:HttpClient) {
+*/   this.filterForm = this.formBuilder.group({
+      speciality:[''],
+      availability:[''],
+      visit_date:['']
+    });
 /*    platform.ready().then(() => {
       this.showMap();
     })
 */  }
 
   ionViewDidLoad() {
-    //console.log(this.mapRef);
-    //this.showMap();
-    //this.loadMap();
-    
-    console.log("ionViewDidEnter");
-    this.storage.get(GlobalVars.access_type_key).then(val=>
-      {
-        console.log(val);
-        this.map = new google.maps.Map(this.mapRef.nativeElement, this.options);
-        if(val==GlobalVars.access_type_profile)
-        {
-          console.log(val);
-          this.showMap();
-        }
-      });
+      //console.log(this.mapRef);
+      //this.populateConfigObject();
+      this.showMap();
+      //this.loadMap();  
   }
-
-  ionViewDidEnter(){
-/*     console.log("ionViewDidEnter");
-    this.storage.get(GlobalVars.access_type_key).then(val=>
-      {
-       
-        console.log(val);
-        if(val==GlobalVars.access_type_profile)
-        {
-          console.log(val);
-          //this.geolocation.clearWatch();
-          this.showMap();
-        }
-      });
- */  }
 
   showMap()
   {
-    // Location Lat & Long
-//    const location = new google.maps.LatLng(22.5687, 88.4316);
-    this.watch = this.geolocation.watchPosition();
-    this.watch.subscribe(pos => {
-      //console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
-      this.lat = pos.coords.latitude;
-      this.lon = pos.coords.longitude;
-      this.location = new google.maps.LatLng(this.lat, this.lon);
-      //console.log("Marker LatLng",this.location);
-      // Map Options
-      this.options = {
-        center: this.location,
-        zoom: 12,
-        streetViewControl: false
+/*    this.platform.ready().then((readySource) => {
+
+      this.diagnostic.isLocationEnabled().then(
+      (isAvailable) => {
+      console.log('Is available? ' + isAvailable);
+      //alert('Is available? ' + isAvailable);
+      if(isAvailable)
+      {
+*/
+//      Location Lat & Long
+//      const location = new google.maps.LatLng(22.5687, 88.4316);
+//      this.watch = this.geolocation.watchPosition();
+        this.watch = this.geolocation.getCurrentPosition();
+        this.watch.then(pos => {
+          //console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
+          this.lat = pos.coords.latitude;
+          this.lon = pos.coords.longitude;
+          this.location = new google.maps.LatLng(this.lat, this.lon);
+          this.populateConfigObject();
+          //console.log("Marker LatLng",this.location);
+          // Map Options
+          this.options = {
+            center: this.location,
+            zoom: 12,
+            streetViewControl: false
+          }
+
+          this.map = new google.maps.Map(this.mapRef.nativeElement, this.options);
+
+          this.addMarker(this.location, this.map);
+
+          this.renderMap();
+
+          this.httpClient.get(GlobalVars.END_POINT_GET_ALL_SPECIALITIES).map((res: Response) => res).subscribe(data => {
+            console.log(data);
+            this.speciality = data;
+          });
+
+        });
+/*
       }
-
-      this.map = new google.maps.Map(this.mapRef.nativeElement, this.options);
-
-      this.addMarker(this.location, this.map);
-
-      this.renderMap();
-
+      else
+      {
+        console.log("Location not activated");
+        let act = confirm("Please turn on GPS.\nClose this once done.");
+        if(act == true)
+          this.showMap();
+      }
+      }).catch( (e) => {
+      console.log(e);
+      alert(JSON.stringify(e));
+      });
     });
-
+*/
   }
 
   renderMap()
@@ -132,24 +161,30 @@ export class MymapPage {
     this.getDoctor(inputAddress5,this.map);
 */      //this.showDoctor(docLoc.lat(),docLoc.ln());
 
-    let getDoctorURL = GlobalVars.END_POINT_GET_DOCTOR_SEARCH + '?lat=' + this.lat + '&lng=' + this.lon + '&distance='+this.distance_value;
-    this.httpClient.get(getDoctorURL).map((res: Response) => res).subscribe(data => {
+//      loader.present();
+
+      let filterConfigJson:string = JSON.stringify(this.filterConfig);
+      console.log("Sent Data:",filterConfigJson);
+      this.httpClient.post(GlobalVars.END_POINT_GET_DOCTOR_SEARCH, filterConfigJson,{
+        headers: new HttpHeaders().set("Content-type", "application/json"),
+        responseType:"text",
+      
+      })
+      .subscribe(data => {
     
-      let jsonData:string=JSON.stringify(data);
-      //console.log(jsonData);
-      let myData = JSON.parse(jsonData);
-      this.facility = myData.records;
+      let myData = JSON.parse(data);
+      console.log(myData.records.length);
       console.log(myData.records);
-      //console.log(jsonData.length);
 //      console.log("Search Response",myData.records[0].facility_address);
       var i=0;
       if(myData.records.length>0)
       {
+        this.facility = myData.records;
         this.mapRef.nativeElement.style.height = "50%";
         this.edited=true;
         for(i=0;i<myData.records.length;i++)
         {
-          let inputAddress = myData.records[i].facility_address;
+          //let inputAddress = myData.records[i].facility_address;
           var contentString = '<script language="javascript">'+
           'function gotoBookingJS(){'+
           'console.log("In javascript function");'+
@@ -172,8 +207,15 @@ export class MymapPage {
           '<button type="button" block id="tap" (click)="gotoBooking()">Book Appointment</button>'+
           '</div>'+
           '</div>';
-          this.getFacility(inputAddress,this.map,contentString,myData.records[i]);
+          this.getFacility(myData.records[i].lat,myData.records[i].lng,this.map,contentString,myData.records[i]);
         }
+
+        this.setMapOnAll(this.map);
+      }
+      else
+      {
+        this.mapRef.nativeElement.style.height = "90%";
+        this.mylist.nativeElement.style.display = "none";
       }
     });
   }
@@ -231,74 +273,58 @@ export class MymapPage {
 
   }
 
-  getFacility(inputAddress,map,contentString,myData)
+  getFacility(doctorLat, doctorLng,map,contentString,myData)
   {
     //this.edited = false;
-    var geocoder = new google.maps.Geocoder();
-    var doctorLat;
-    var doctorLng;
-    var doctorLocation;
-    geocoder.geocode({
-        "address": inputAddress
-    }, function(results) {
-        //  console.log("Home Location:"+results[0].geometry.location); //LatLng
-          doctorLat = results[0].geometry.location.lat();
-          doctorLng = results[0].geometry.location.lng();
-          doctorLocation = results[0].geometry.location;
-          const location = new google.maps.LatLng(doctorLat, doctorLng);
-        //  console.log(doctorLocation);
-        //  console.log(location);
-      
-        //  console.log(inputAddress+" Marker at "+doctorLocation);
-      
-          var infowindow = new google.maps.InfoWindow({
-            content: contentString,
-            maxWidth: 200
-          });
-      
-          var marker = new google.maps.Marker({
-            position: location,
-            map,
-            title: 'Doctor Location',
-            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-          });
-          google.maps.event.addListener(infowindow, 'domready', function() {
-            var clickableItem = document.getElementById('tap');
-            clickableItem.addEventListener('click', function() {
-            console.log("Going to booking");
-            var func = function(){
-              return true;
-            }
-            });
-          });
-          let func:Function;
-          this.edited = func;
-          //console.log(this.edited);
-/*
-            this.list.innerHTML = this.list.innerHTML + 
-            "<ion-item style='background:purple;'>" + 
-            "<div style='width:80%'>" + 
-            "<b>" + myData.facility_name + "</b>" + 
-            "<br>" + 
-            myData.facility_address + 
-            "<br>" + 
-            "<b>Phone:</b> " + myData.facility_phone + 
-            "<br>" + 
-            "<b>Timing:</b> " + myData.chamber_start + " to " + myData.chamber_end + 
-            "<br>" + 
-            "<b>No. of Patients:</b> " + myData.no_patient + 
-            "</div><div style='width:20%'>" + 
-            '<button ion-button block type="button" (click)="gotoBooking()">Booking</button>' + 
-            "</div>" + 
-            "</ion-item>";
-*/
-            return marker.addListener('click', function() {
-            //this.edited = true;
-            this.FACILITY_NAME = myData.facility_name;
-            console.log("this.edited=" + this.edited);
-            infowindow.open(map, marker);
-          });
+    const location = new google.maps.LatLng(doctorLat, doctorLng);
+    //  console.log(doctorLocation);
+    //  console.log(location);
+  
+    //  console.log(inputAddress+" Marker at "+doctorLocation);
+  
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString,
+      maxWidth: 200
     });
+
+    var marker = new google.maps.Marker({
+      position: location,
+      map,
+      title: 'Doctor Location',
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    });
+    google.maps.event.addListener(infowindow, 'domready', function() {
+      var clickableItem = document.getElementById('tap');
+      clickableItem.addEventListener('click', function() {
+      console.log("Going to booking");
+      });
+    });
+    //console.log(this.edited);
+/*
+      this.list.innerHTML = this.list.innerHTML + 
+      "<ion-item style='background:purple;'>" + 
+      "<div style='width:80%'>" + 
+      "<b>" + myData.facility_name + "</b>" + 
+      "<br>" + 
+      myData.facility_address + 
+      "<br>" + 
+      "<b>Phone:</b> " + myData.facility_phone + 
+      "<br>" + 
+      "<b>Timing:</b> " + myData.chamber_start + " to " + myData.chamber_end + 
+      "<br>" + 
+      "<b>No. of Patients:</b> " + myData.no_patient + 
+      "</div><div style='width:20%'>" + 
+      '<button ion-button block type="button" (click)="gotoBooking()">Booking</button>' + 
+      "</div>" + 
+      "</ion-item>";
+*/
+    marker.addListener('click', function() {
+      //this.edited = true;
+      this.FACILITY_NAME = myData.facility_name;
+      //console.log("this.edited=" + this.edited);
+      infowindow.open(map, marker);
+    });
+    this.markers.push(marker);
   }
 
   showDoctor(latitude,longitude)
@@ -332,9 +358,17 @@ export class MymapPage {
       map,
       title: 'My Location'
     });
-    return marker.addListener('click', function() {
+    marker.addListener('click', function() {
       infowindow.open(map, marker);
     });
+
+    marker.addListener('dragend', function(){
+      console.log(marker.getPosition());
+    });
+
+    //this.setMapOnAll(this.myMarker);
+    this.myMarker.push(marker);
+    this.myMarker[0].setMap(map);
  
   }
 
@@ -348,8 +382,76 @@ export class MymapPage {
   gotoBooking(item)
   {
     console.log("Initiate Booking");
-    console.log(item.facility_name);
+    console.log(item);
+    this.storage.set(GlobalVars.booking_info_storage_key,item);
+    //this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_booking);
+    this.navCtrl.push(BookinginitiatePage);
   }
+
+  showFilter()
+  {
+    if(this.filter.nativeElement.style.display == "none")
+    {
+      this.filter.nativeElement.style.display = "block";
+      this.mapRef.nativeElement.style.display = "none";
+      this.mylist.nativeElement.style.display = "none";
+    }
+    else
+    {
+      console.log("Filter will be applied");
+      this.filter.nativeElement.style.display = "none";
+      this.mapRef.nativeElement.style.display = "block";
+      this.mylist.nativeElement.style.display = "block";
+      this.filterSearch();
+
+    }
+  }
+
+  filterSearch()
+  {
+    console.log("Filter will close");
+    this.populateConfigObject();
+    this.setMapOnAll(null);
+    this.markers = [];
+    this.renderMap();
+
+  }
+
+  populateConfigObject(){
+    //console.log('populateConfigObject');
+    
+    this.filterConfig=new FilterConfig();
+    this.filterConfig.lat = this.lat;
+    this.filterConfig.lng = this.lon;
+    this.filterConfig.speciality = this.filterForm.value.speciality;
+    this.filterConfig.availability = this.filterForm.value.availability;
+    this.filterConfig.visit_date = this.filterForm.value.visit_date;
+    this.filterConfig.distance = this.distance_value;
+    
+  }
+
+  setMapOnAll(map) {
+    for (var i = 0; i < this.markers.length; i++) {
+      this.markers[i].setMap(map);
+    }
+  }
+
+  resetGPS()
+  {
+    console.log("Resetting GPS");
+    this.myMarker[0].setMap(null);
+    this.watch = this.geolocation.getCurrentPosition();
+    this.watch.then(pos => {
+      //console.log('lat: ' + pos.coords.latitude + ', lon: ' + pos.coords.longitude);
+      this.lat = pos.coords.latitude;
+      this.lon = pos.coords.longitude;
+      this.location = new google.maps.LatLng(this.lat, this.lon);
+      this.map.panTo(this.location);
+      this.map.setZoom(12);
+      this.addMarker(this.location, this.map);
+    });
+  }
+
 
 /*
 

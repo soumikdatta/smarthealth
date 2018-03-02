@@ -9,6 +9,7 @@
   <ion-navbar color="primary" hideBackButton>
     <ion-icon style="padding-left:2rem" name="menu" menuToggle left></ion-icon>
     <ion-title>Google Map</ion-title>
+    <ion-icon style="padding-right:2rem; float:right;" name="ios-locate-outline" right (click)="resetGPS()"></ion-icon>
   </ion-navbar>
 
 </ion-header>
@@ -28,23 +29,53 @@
   </div>  
   <div #map id="map">
   </div>
-  <ion-content *ngIf="edited==true" style="height:50% !important; overflow: scroll; margin:10px;" id="list">
+  <div *ngIf="edited==true" style="height:38% !important; overflow: scroll; margin:10px;" id="list" #facilityList >
 
-<!--       <button ion-button block type="button" (click)="gotoBooking()">Booking</button>
- -->
-    <ion-list *ngFor="let item of facility">
-        <ion-item style="width:95%; background: rgb(199, 159, 245);">
-          <p><b>{{item.facility_name}}</b></p>
-          <p>{{item.facility_address}}</p>
-          <p><b>Phone:</b> {{item.facility_phone}}</p>
-          <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p>
-          <p><b>No. of Patients:</b> {{item.no_patient}}</p>
-        </ion-item>
-        <button ion-button style="width:95%; background: rgb(245, 63, 63);" type="button" (click)="gotoBooking(item)">Book an Appointment</button>
-    </ion-list>
-<!--    <fieldset style="margin:10px; background: rgb(199, 159, 245);" id="list">
-
-    </fieldset>
+  <!--       <button ion-button block type="button" (click)="gotoBooking()">Booking</button>
   -->
-  </ion-content>
+      <ion-list *ngFor="let item of facility">
+          <ion-item style="width:95%;" color="mymenu">
+            <div style="width:95% !important;">
+              <div style="width:50% !important; float:left;">
+                <img style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{server}}/{{item.pic_name}}" >
+              </div>
+              <div style="width:50% !important; word-wrap: break-word;">
+                <p>{{item.doctor_name}}</p>
+                <p>{{item.speciality}}</p>
+              </div>
+            </div>
+            <p><b>Facility:</b> {{item.facility_name}}</p>
+            <p><b>Address:</b> {{item.facility_address}}</p>
+            <p><b>Phone:</b> {{item.facility_phone}}</p>
+            <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p>
+            <p><b>No. of Patients:</b> {{item.no_patient}}</p>
+      </ion-item>
+          <button ion-button style="width:95%; background: rgb(245, 63, 63);" type="button" (click)="gotoBooking(item)">Book an Appointment</button>
+      </ion-list>
+  </div>
+<!--   <div id="filter" #filter style="display: none; background: rgb(248, 112, 112); height: 90% !important; overflow:hidden;"> -->
+<div id="filter" #filter style="display: none; height: 90% !important; overflow:hidden;">
+    <form [formGroup]="filterForm" (ngSubmit)="filterSearch()">
+      <ion-list>
+        <ion-item>
+          <h1>Filter Options</h1>
+        </ion-item>
+        <ion-item>
+          <ion-label>Speciality</ion-label>
+          <ion-select formControlName="speciality">
+            <ion-option *ngFor="let spcl of speciality" value="{{spcl}}">{{spcl}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Visit Date:</ion-label>
+          <ion-datetime displayFormat="MMM DD, YYYY" formControlName="visit_date"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>Currently Available</ion-label>
+          <ion-toggle color="secondary" formControlName="availability"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </form>
+    </div>
+  <button ion-button #filterBtn block (click)="showFilter()">Filter</button>
 </ion-content>

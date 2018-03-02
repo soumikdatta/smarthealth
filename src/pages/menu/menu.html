@@ -4,19 +4,27 @@
           <ion-list>
             <img #PIMG style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{getImage()}}" width="50">
             <p style="text-align:center; color:antiquewhite;">Menu</p>
-               <button ion-item menuClose style="background-color:aqua;" (click)="openPage(profilePage)">
+<!--             <button ion-item menuClose style="background-color:aqua;" (click)="openPage(profilePage)"> -->
+              <button ion-item menuClose style="background-color:rgb(37, 122, 179);" (click)="openPage(profilePage)">
                 <ion-icon name="person">&nbsp;&nbsp;Profile</ion-icon>
               </button>
-              <button ion-item menuClose style="background-color:blueviolet;" (click)="openPage(editprofilePage)">
-                  <ion-icon name="ios-card">&nbsp;&nbsp;Edit Profile</ion-icon>
+<!--               <button ion-item menuClose style="background-color:blueviolet;" (click)="openPage(editprofilePage)"> -->
+              <button ion-item menuClose style="background-color:rgb(37, 122, 179);" (click)="openPage(editprofilePage)">
+                <ion-icon name="ios-card">&nbsp;&nbsp;Edit Profile</ion-icon>
               </button>
-              <button ion-item menuClose style="background-color:rgb(37, 179, 91);" (click)="openPage(changepicPage)">
-                <ion-icon name="image">&nbsp;&nbsp;Change Image</ion-icon>
+<!--               <button ion-item menuClose style="background-color:rgb(37, 179, 91);" (click)="openPage(changepicPage)"> -->
+              <button ion-item menuClose style="background-color:rgb(37, 122, 179);" (click)="openPage(changepicPage)">
+                  <ion-icon name="image">&nbsp;&nbsp;Change Image</ion-icon>
               </button>
               <button ion-item menuClose style="background-color:rgb(37, 122, 179);" (click)="openPage(searchPage)">
-                <ion-icon name="image">&nbsp;&nbsp;Search Doctor</ion-icon>
+                <ion-icon name="search">&nbsp;&nbsp;Search Doctor</ion-icon>
               </button>
-              <button ion-item menuClose style="background-color:rgb(212, 35, 168);" (click)="logout()">
+<!--               <button ion-item menuClose style="background-color:rgb(205, 84, 235);" (click)="openPage(bookingPage)"> -->
+              <button ion-item menuClose style="background-color:rgb(37, 122, 179);" (click)="openPage(bookingPage)">
+                <ion-icon name="bookmark">&nbsp;&nbsp;Bookings</ion-icon>
+              </button>
+<!--               <button ion-item menuClose style="background-color:rgb(212, 35, 168);" (click)="logout()"> -->
+                <button ion-item menuClose style="background-color:rgb(37, 122, 179);" (click)="logout()">
                   <ion-icon ios="ios-log-out" md="ios-log-out">&nbsp;&nbsp;Logout</ion-icon>
               </button>
           </ion-list>
