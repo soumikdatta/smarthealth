@@ -6,17 +6,18 @@
 -->
 <ion-header>
 
-  <ion-navbar color="primary" hideBackButton>
+  <ion-navbar color="mymenu" hideBackButton>
     <ion-icon style="padding-left:2rem" name="menu" menuToggle left></ion-icon>
-    <ion-title>Google Map</ion-title>
-    <ion-icon style="padding-right:2rem; float:right;" name="ios-locate-outline" right (click)="resetGPS()"></ion-icon>
+    <ion-title>Search</ion-title>
+    <ion-icon style="padding-right:2rem; float:right; font-size: 30px; color:azure; font-weight:bold;" name="ios-funnel-outline" (click)="showFilter()" right></ion-icon>
+    <ion-icon style="padding-right:2rem; float:right; font-size: 30px; color:azure; font-weight:bold;" name="ios-locate-outline" right (click)="resetGPS()"></ion-icon>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <div *ngIf="edited==block">
+    <div *ngIf="edited==block">
     <ion-item>
       <ion-label floating>Select Range</ion-label>
       <ion-select [(ngModel)]="distance" (ionChange)="changeDistance($event)">
@@ -27,30 +28,87 @@
       </ion-select>
     </ion-item>
   </div>  
+  <ion-card #myCard style="display:none;">
+    <ion-card-content>
+        <div #directionsPanel style="display:none;">
+
+        </div>
+    </ion-card-content>
+    <ion-fab top right (click)="closeCard()">
+      <button ion-fab color="primary">
+        <ion-icon name="ios-close-circle"></ion-icon>
+      </button>
+    </ion-fab>
+  </ion-card>
+  <div style="display: none;">
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="z-index: 10;" (change)="getSearch()">
+      <button id="updLoc" style="display: block;" (click)="updateLocation()">Search</button>
+  </div>
   <div #map id="map">
   </div>
-  <div *ngIf="edited==true" style="height:38% !important; overflow: scroll; margin:10px;" id="list" #facilityList >
+  <div #facilityBar id="facilityBar">
+    <ion-item color="mymenu" style="text-align: center;">
+      <ion-icon *ngIf="dropIcon=='UP'" style="padding-left:2rem" name="ios-arrow-dropup" left (click)="showList()"></ion-icon>
+      <ion-icon *ngIf="dropIcon=='DOWN'" style="padding-left:2rem" name="ios-arrow-dropdown" left (click)="showList()"></ion-icon>
+      <ion-icon *ngIf="dropIcon=='BACK'" style="padding-left:2rem" name="ios-arrow-dropleft" left (click)="getFacilityList()"></ion-icon>
+      <span>
+          Facilities near to your location
+      </span>
+    </ion-item>
+  </div>
+
+  <div *ngIf="edited==true" style="height:90% !important; margin:10px;" id="facilityList" #facilityList >
 
   <!--       <button ion-button block type="button" (click)="gotoBooking()">Booking</button>
   -->
-      <ion-list *ngFor="let item of facility">
-          <ion-item style="width:95%;" color="mymenu">
+      <ion-list *ngFor="let item of facilitiesList" (click)="getDoctorList(item.facility_id)">
+          <ion-item style="width:100%;" color="mymenu">
             <div style="width:95% !important;">
-              <div style="width:50% !important; float:left;">
-                <img style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{server}}/{{item.pic_name}}" >
+              <div style="width:20% !important; float:left;">
+                <img style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{server}}/{{item.pic_name}}" width="150">
               </div>
-              <div style="width:50% !important; word-wrap: break-word;">
-                <p>{{item.doctor_name}}</p>
-                <p>{{item.speciality}}</p>
+              <div style="display: table; width:80% !important; height:150px; text-align:center; word-wrap: break-word; float:right;">
+                <h1 style="display: table-cell; vertical-align: middle;">{{item.facility_name}}</h1>
+                <!-- <h2>{{item.speciality}}</h2> -->
               </div>
             </div>
-            <p><b>Facility:</b> {{item.facility_name}}</p>
+          </ion-item>
+          <ion-item>
+            <!-- <p><b>Facility:</b> {{item.facility_name}}</p> -->
             <p><b>Address:</b> {{item.facility_address}}</p>
             <p><b>Phone:</b> {{item.facility_phone}}</p>
-            <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p>
-            <p><b>No. of Patients:</b> {{item.no_patient}}</p>
-      </ion-item>
-          <button ion-button style="width:95%; background: rgb(245, 63, 63);" type="button" (click)="gotoBooking(item)">Book an Appointment</button>
+            <!-- <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p>
+            <p><b>No. of Patients:</b> {{item.no_patient}}</p> -->
+          </ion-item>
+          <!-- <button ion-button style="width:95%; background: rgb(245, 63, 63);" type="button" (click)="gotoBooking(item)">Book an Appointment</button> -->
+      </ion-list>
+  </div>
+
+  <div *ngIf="showDoctor==true" style="height:90% !important; overflow: scroll; margin:10px;" id="doctorsList" #doctorsList >
+
+  <!--       <button ion-button block type="button" (click)="gotoBooking()">Booking</button>
+  -->
+      <!-- <ion-list *ngFor="let item of doctorList" (click)="startNavigating(item)"> -->
+      <ion-list *ngFor="let item of doctorList">
+        <ion-item style="width:100%;" color="mymenu">
+          <div style="width:95% !important;">
+            <div style="width:20% !important; float:left;">
+              <img style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{server}}/{{item.pic_name}}" width="150">
+            </div>
+            <div style="width:80% !important; text-align:center; word-wrap: break-word; float:right;">
+              <h1>{{item.doctor_name}}</h1>
+              <h2>{{item.speciality}}</h2>
+            </div>
+          </div>
+        </ion-item>
+        <ion-item>
+          <p><b>Facility:</b> {{item.facility_name}}</p>
+          <p><b>Address:</b> {{item.facility_address}}</p>
+          <p><b>Phone:</b> {{item.facility_phone}}</p>
+          <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p>
+          <p><b>No. of Patients:</b> {{item.no_patient}}</p>
+        </ion-item>
+        <button ion-button style="width:95%; background: rgb(245, 63, 63);" type="button" (click)="gotoBooking(item)">Book an Appointment</button>
       </ion-list>
   </div>
 <!--   <div id="filter" #filter style="display: none; background: rgb(248, 112, 112); height: 90% !important; overflow:hidden;"> -->
@@ -63,6 +121,7 @@
         <ion-item>
           <ion-label>Speciality</ion-label>
           <ion-select formControlName="speciality">
+            <ion-option value="">ANY</ion-option>
             <ion-option *ngFor="let spcl of speciality" value="{{spcl}}">{{spcl}}</ion-option>
           </ion-select>
         </ion-item>
@@ -74,8 +133,21 @@
           <ion-label>Currently Available</ion-label>
           <ion-toggle color="secondary" formControlName="availability"></ion-toggle>
         </ion-item>
+        <ion-item>
+          <ion-input formControlName="facility" placeholder="Facility"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input formControlName="doctor" placeholder="Doctor"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Location</ion-label>
+          <ion-select formControlName="location">
+            <ion-option *ngFor="let location of locationList" value="{{location}}">{{location}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <button ion-button block color="mymenu" (click)="filterSearch()" [disabled]="searching">Search</button>
       </ion-list>
     </form>
-    </div>
-  <button ion-button #filterBtn block (click)="showFilter()">Filter</button>
+  </div>
+  <!--<button ion-button #filterBtn block (click)="showFilter()">Filter</button>-->
 </ion-content>

@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar color="primary">
+  <ion-navbar color="mymenu">
     <ion-icon style="padding-left:2rem" name="menu" menuToggle left></ion-icon>
     <ion-title>Initiate Booking</ion-title>
   </ion-navbar>
@@ -28,20 +28,48 @@
     <ion-item>
       <ion-input type="text" formControlName="name" value="{{patient_name}}" placeholder="Patient Name" ></ion-input>
     </ion-item>
+    <ion-label *ngIf="!bookingForm.valid">
+      Only alphanumeric characters allowed
+    </ion-label>
     <ion-item>
-      <ion-textarea formControlName="address" value="{{patient_address}}" placeholder="Address" ></ion-textarea>
+      <ion-textarea id="add1" formControlName="address" value="{{patient_address}}" placeholder="Address" ></ion-textarea>
     </ion-item>
+    <ion-label *ngIf="!bookingForm.valid">
+      Only alphanumeric characters, comma, dot, space allowed
+    </ion-label>
     <ion-item>
         Phone: <ion-input type="text" formControlName="phone" value="{{patient_phone}}" placeholder="Mobile No." ></ion-input>
     </ion-item>
+    <ion-label *ngIf="!bookingForm.valid">
+      Only numeric characters allowed
+    </ion-label>
     <ion-item>
       <ion-input type="text" formControlName="age" value="{{patient_age}}" placeholder="Age" ></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-input type="text" formControlName="sex" value="{{sex}}" placeholder="M/F" ></ion-input>
-    </ion-item>
+    <ion-label *ngIf="!bookingForm.valid">
+      Only numeric characters allowed
+    </ion-label>
+    <ion-list radio-group formControlName="sex">
+      <ion-item style="width:150px;">
+        <ion-label>Male</ion-label>
+        <ion-radio value="M" [checked]="sex=='M'"></ion-radio>
+      </ion-item>
+      <ion-item style="width:150px;">
+        <ion-label>Female</ion-label>
+        <ion-radio value="F" [checked]="sex=='F'"></ion-radio>
+      </ion-item>
+      <ion-item style="width:150px;">
+        <ion-label>Other</ion-label>
+        <ion-radio value="O" [checked]="sex=='O'"></ion-radio>
+      </ion-item>
+    </ion-list>
     <ion-item>
         <ion-textarea formControlName="symptoms" value="{{symptoms}}" placeholder="Symptoms (Optional)\nMax. 200 characters" rows=5 ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <p>
+        * All fields are mandatory
+      </p>
     </ion-item>
     <button ion-button block type="submit" [disabled]="!bookingForm.valid">
       <ion-icon name="archive"></ion-icon>&nbsp;&nbsp;&nbsp;Save

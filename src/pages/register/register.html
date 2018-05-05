@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="mymenu" hideBackButton>
     <ion-icon name="menu" menuToggle left></ion-icon>
     <ion-title>Register</ion-title>
   </ion-navbar>
@@ -16,47 +16,52 @@
 
 <ion-content text-center class="vertical-align-content">
   <ion-grid>
-    <img src="../assets/imgs/logo1.jpg" size="contain" style="align-items: center">
+    <img src="./assets/imgs/logo1.jpg" size="contain" style="align-items: center">
     <p></p>
     <p></p>
     <form [formGroup]="registrationForm" (ngSubmit)="register()">
         <ion-row>
               <ion-col>
-                  <ion-item>
-                      <ion-label floating></ion-label>
-                      <ion-input type="text" formControlName="userId" placeholder="User ID"></ion-input>
-                  </ion-item>
-                  <p></p>
-                  <ion-item>
-                      <ion-label floating></ion-label>
-                      <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
-                  </ion-item>
-                  <p></p>
-                   <ion-item>
-                      <ion-label floating></ion-label>
-                      <ion-textarea formControlName="address" placeholder="Address"></ion-textarea>
-                  </ion-item>
-                  <p></p> 
-                  <ion-item>
-                      <ion-label floating></ion-label>
-                      <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
-                  </ion-item>
-                  <p></p>
-                  <ion-item>
-                      <ion-label floating></ion-label>
-                      <ion-input type="text" formControlName="phone" placeholder="Phone"></ion-input>
-                  </ion-item>
-                  <p></p>
-                  <ion-item>
-                      <ion-label floating></ion-label>
-                      <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
-                  </ion-item>
-                  <p></p>
-                  <button ion-button block type="submit" [disabled]="!registrationForm.valid">Save</button>
-                  <ion-label style="color:rgb(255, 0, 0);">{{RSTAT}}</ion-label>
-                  <p></p>
-                  <p></p>
-                  <p style="color:white;">Already have an account? <label (click)="gotoMainPage()">Sign In</label></p>
+                <ion-item>
+                    <ion-label floating></ion-label>
+                    <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
+                </ion-item>
+                <p></p>
+                <ion-item>
+                    <ion-label floating></ion-label>
+                    <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
+                </ion-item>
+                <p></p>
+                <ion-item>
+                    <ion-label floating></ion-label>
+                    <ion-input type="text" formControlName="phone" placeholder="Phone"></ion-input>
+                </ion-item>
+                <p></p>
+                <ion-item>
+                    <ion-label floating></ion-label>
+                    <ion-input type="text" formControlName="pin" placeholder="PIN"></ion-input>
+                </ion-item>
+                <p></p>
+                <ion-item>
+                    <ion-label floating></ion-label>
+                    <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+                </ion-item>
+                <p></p>
+<!--                 <ion-item>
+                    <ion-label floating></ion-label>
+                    <ion-input type="text" formControlName="userId" placeholder="User ID"></ion-input>
+                </ion-item>
+                <p></p>
+                <ion-item>
+                    <ion-label floating></ion-label>
+                    <ion-textarea formControlName="address" placeholder="Address"></ion-textarea>
+                </ion-item>
+                <p></p> 
+ -->                <button block style="background-color: rgb(248, 52, 52); color:azure; font-size: 30px; width:80%; height:60px; border-radius: 30px !important;" type="submit" [disabled]="!registrationForm.valid">Save</button>
+                <ion-label style="color:rgb(255, 255, 255);">{{RSTAT}}</ion-label>
+                <p></p>
+                <p></p>
+                <p style="color:white;">Already have an account? <label (click)="gotoMainPage()">Sign In</label></p>
               </ion-col>
         </ion-row>
     </form>

@@ -7,8 +7,8 @@
 
 <ion-header>
 
-  <ion-navbar hideBackButton>
-<!--    <ion-icon style="padding-left:2rem" name="menu" menuToggle left></ion-icon> -->
+  <ion-navbar color="mymenu" hideBackButton>
+    <ion-icon style="padding-left:2rem" name="menu" menuToggle left></ion-icon>
     <ion-title style="text-align:center;">
         Profile
     </ion-title>
@@ -17,22 +17,83 @@
 </ion-header>
 
 
-<ion-content padding class="profile">
-<!--     <img style="align-items:center; margin: auto; display: block;" src="http://ef3be81e.ngrok.io/smarthealth/profile_pic/ITS-032_mistu.jpg" width="150"> -->
-  <img #PIMG style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{getImage()}}" width="150">
-  <ion-item>
-      Patient ID: <ion-input value="Patient ID" #PID readonly></ion-input>
-  </ion-item>
-  <ion-item>
-    Name: <ion-input value="Name" #PNAME readonly></ion-input>
-  </ion-item>
-  <ion-item>
-    Address: <ion-input value="Address" #PADD readonly></ion-input>
-  </ion-item>
-  <ion-item>
-    Email: <ion-input value="Email" #PEMAIL readonly></ion-input>
-  </ion-item>
-  <ion-item>
-    Phone: <ion-input value="Phone" #PPH readonly></ion-input>
-  </ion-item>
-</ion-content>
+<ion-content padding class="profile" #profileContent style="display:block;width:100%;">
+  <div style="z-index:0; width:90%; height:100%; position: absolute;">
+      <div>
+        <div style="width:30%; float:left;">
+            <img #PIMG style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{getImage()}}" width="150">
+        </div>
+        <div style="display: table; width:60%; height:150px; float:left; text-align:center; word-wrap: break-word; padding-left:5px;">
+          <h2 style="display: table-cell; vertical-align: middle;">{{profileData.patient_name}}</h2>
+          <!-- <p>{{profileData.patient_email}}</p>
+          <p>{{profileData.patient_phone}}</p> -->
+        </div>
+      </div>
+<!--    <ion-item>
+      Patient ID: {{profileData.patient_id}}
+    </ion-item>
+    <ion-item>
+      Name: <ion-input value="Name" #PNAME readonly></ion-input>
+    </ion-item>
+-->
+    <ion-item>
+      <div style="width:40px; height:40px; float:left; text-align:center; border-radius: 50%; background:rgb(128, 126, 126);">
+        <ion-icon name="ios-contact"style="font-size: 38px;" color="light"></ion-icon>
+      </div>
+      <div style="width:50% !important; padding-left:60px; line-height: 40px; vertical-align: middle; word-wrap: break-word;">
+        <p>Contact</p>
+        <p style="word-wrap: break-word; width:50px; white-space: pre; font-size:20px;">{{profileData.patient_address}}</p>
+        <p style="font-size:20px;">{{profileData.patient_email}}</p>
+        <p style="font-size:20px;">{{profileData.patient_phone}}</p>
+      </div>
+    </ion-item>
+    <ion-item>
+      <div style="width:40px; height:40px; float:left; text-align:center; border-radius: 50%; background:rgb(128, 126, 126);">
+        <ion-icon name="md-calendar"style="font-size: 35px;" color="light"></ion-icon>
+      </div>
+      <div style="height:40px; padding-left:60px; line-height: 40px; vertical-align: middle;">
+        <p>Date of Birth</p>
+        <p style="font-size:20px;">{{profileData.patient_dob}}</p>
+      </div>
+    </ion-item>
+    <ion-item>
+      <div style="width:15%; background:rgb(196, 13, 13)">
+        <div style="width:40px; height:40px; float:left; text-align:center; border-radius: 50%; background:rgb(128, 126, 126);">
+          <ion-icon name="ios-stopwatch-outline"style="font-size: 35px;" color="light"></ion-icon>
+        </div>
+      </div>
+      <div style="height:40px; padding-left:20px; line-height: 40px; vertical-align: middle; float:left;">
+        <p>Appointments</p>
+        <p style="font-size:20px;">{{booking_model.records_now}}</p>
+      </div>
+      <div style="width:15%; float:right; font-size:25px;">
+        {{booking_history}}
+      </div>
+    </ion-item>      
+    <ion-item>
+      <div style="width:40px; height:40px; float:left; text-align:center; border-radius: 50%; background:rgb(128, 126, 126);">
+        <ion-icon name="md-cash"style="font-size: 35px;" color="light"></ion-icon>
+      </div>
+      <div style="height:40px; padding-left:60px; line-height: 40px; vertical-align: middle;">
+        <p>Wallet Balance</p>
+        <p style="font-size:20px;">INR {{profileData.wallet_balance}}</p>
+      </div>
+    </ion-item>
+    <ion-fab bottom right style="margin-bottom:40px;" (click)="editProfile()">
+      <button ion-fab color="primary">
+        <ion-icon name="ios-create"></ion-icon>
+      </button>
+    </ion-fab>
+<!--
+    <ion-item>
+      Email: <ion-input value="Email" #PEMAIL readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      Phone: <ion-input value="Phone" #PPH readonly></ion-input>
+    </ion-item>
+-->
+  </div>
+<!--   <div style="z-index:10; top:80%; left:80%; width:60px; height:60px; position: absolute; float:right; text-align:center; margin: auto; display: block; border-radius: 50%; background:rgb(236, 20, 20);">
+      <ion-icon name="md-create" style="font-size: 50px;" color="light" (click)="editProfile()"></ion-icon>
+  </div>
+ --></ion-content>

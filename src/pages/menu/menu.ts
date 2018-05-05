@@ -2,10 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import * as GlobalVars from '../../helper/globalvars';
-import { HomePage } from '../home/home';
+import { LoginPage } from '../login/login';
 import { ProfilePage } from '../profile/profile';
 //import { RegisterPage } from '../register/register';
-//import { LoginPage } from '../login/login';
+import { TransactionsPage } from '../transactions/transactions';
 import { EditprofilePage } from '../editprofile/editprofile';
 import { ChangepicPage } from '../changepic/changepic';
 import { MymapPage } from '../mymap/mymap';
@@ -27,9 +27,10 @@ export class MenuPage {
   private changepicPage;
   private searchPage;
   private bookingPage;
+  private transactionsPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
-    this.rootPage = ProfilePage;
+    this.rootPage = MymapPage;
 
     this.profilePage = ProfilePage;
     this.editprofilePage = EditprofilePage;
@@ -37,6 +38,7 @@ export class MenuPage {
     this.searchPage = MymapPage;
     //this.bookingPage = BookingPage;
     this.bookingPage = TabsPage;
+    this.transactionsPage = TransactionsPage;
 
   }
 
@@ -46,10 +48,10 @@ export class MenuPage {
       if(result != null){
 //          let jsonData:string=JSON.stringify(result);
         let myData = JSON.parse(result);
-       console.log("Menu Stored Data:",myData);
+       //console.log("Menu Stored Data:",myData);
         if(myData)
         {
-          console.log("Menu Patient Photo",myData.records[0].patient_photo);
+          //console.log("Menu Patient Photo",myData.records[0].patient_photo);
 //                console.log(GlobalVars.WORKING_SERVER);
           this.PIMG=GlobalVars.WORKING_SERVER.concat("profile_pic/").concat(myData.records[0].patient_photo);
 //                this.PIMG.src=GlobalVars.WORKING_SERVER.concat("profile_pic/");
@@ -57,7 +59,7 @@ export class MenuPage {
         }
 //          this.PID.value=this.profileConfig.data;
       }else{
-        console.log("No data in storage menu");
+        //console.log("No data in storage menu");
 //        this.storage.clear();      
 //        this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_home);
 //        this.navCtrl.push(HomePage);
@@ -66,7 +68,7 @@ export class MenuPage {
   }
   
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Menu Page');
+    //console.log('ionViewDidLoad Menu Page');
   }
 
   openPage(p) {
@@ -76,8 +78,8 @@ export class MenuPage {
   logout()
   {
     this.storage.clear();      
-    this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_home);
-    this.navCtrl.push(HomePage);
+    this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_login);
+    this.navCtrl.push(LoginPage);
   }
 
   getImage()

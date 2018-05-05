@@ -11,9 +11,10 @@
 
 <ion-tabs color="mymenu" tabsPlacement="bottom">
 <!--  <ion-tab [root]="tab1Root" tabTitle="Profile" tabIcon="ios-home-outline" #tab1></ion-tab> -->
-  <ion-tab [root]="tab1Root" tabIcon="ios-home-outline" #tab1></ion-tab>
-  <ion-tab [root]="tab2Root" tabIcon="search" #tab2></ion-tab>
+  <ion-tab [root]="tab1Root" tabIcon="search" #tab1></ion-tab>
+  <ion-tab [root]="tab2Root" tabIcon="ios-home-outline" #tab2></ion-tab>
   <ion-tab [root]="tab3Root" tabIcon="ios-stopwatch-outline"></ion-tab>
-  <ion-tab [root]="tab4Root" tabIcon="ios-power" #tab4 (ionSelect)="logout()"></ion-tab>
+  <ion-tab [root]="tab4Root" tabIcon="md-settings" #tab4></ion-tab>
+  <ion-tab [root]="tab5Root" tabIcon="ios-power" #tab5 (ionSelect)="logout()"></ion-tab>
 <!--   <ion-tab [root]="tab3Root" tabTitle="Office" tabIcon="contacts"></ion-tab> -->
 </ion-tabs>

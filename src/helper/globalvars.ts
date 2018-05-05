@@ -55,11 +55,11 @@ facility_type_keys_by_value.set(facility_type_value_lifesupport,facility_type_ke
 // Localhost
 //export const WORKING_SERVER = "http://localhost/smarthealth/";
 
-// Localhost exposed
-//export const WORKING_SERVER = "http://ab934f3c.ngrok.io/smarthealth/";
+// New Server
+export const WORKING_SERVER = "http://139.59.20.250/";
 
 // GoDaddy Server
-export const WORKING_SERVER = "http://hr.ideal-channel.com/smarthealth/";
+//export const WORKING_SERVER = "http://hr.ideal-channel.com/smarthealth/";
 
 // Free Server
 //export const WORKING_SERVER = "http://smarthealth.epizy.com/";
@@ -70,9 +70,13 @@ export const END_POINT_SEND_REGISTRATION_DATA = WORKING_SERVER + "api/register/r
 export const END_POINT_SEND_PROFILE_DATA = WORKING_SERVER + "api/profile/edit_patient.php";
 export const END_POINT_GET_DOCTOR_SEARCH = WORKING_SERVER + "api/search/search_doctor.php";
 export const END_POINT_SEND_BOOKING_DATA = WORKING_SERVER + "api/booking/booking.php";
+export const END_POINT_GET_ALL_BOOKING_DATA = WORKING_SERVER + "api/booking/booking_all.php";
 export const END_POINT_GET_BOOKING_NOW_DATA = WORKING_SERVER + "api/booking/booking_now.php";
 export const END_POINT_GET_BOOKING_OLD_DATA = WORKING_SERVER + "api/booking/booking_old.php";
 export const END_POINT_GET_ALL_SPECIALITIES = WORKING_SERVER + "api/search/getSpeciality.php";
+export const END_POINT_SEND_CHANGE_PASSWORD = WORKING_SERVER + "api/profile/change_password.php";
+export const END_POINT_SEND_CANCEL_BOOKING = WORKING_SERVER + "api/booking/cancel_booking.php";
+export const END_POINT_GET_TRANSACTIONS = WORKING_SERVER + "api/search/transaction.php";
 
 /*
 export const END_POINT_SEND_VEHICLE_DATA = "http://115.119.200.83:15080/app/dataPusher";

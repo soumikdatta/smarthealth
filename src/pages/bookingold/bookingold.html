@@ -14,18 +14,21 @@
 </ion-header>
 -->
 
-<ion-content padding>
+<ion-content *ngIf="status==true" padding style="margin-top: 30px;">
   <div style="display:block;" #bookingList>
     <ion-list *ngFor="let item of booking_model" style="display:block;">
         <ion-item style="width:95%; border-color: rgb(250, 48, 81);" (click)="showDetails(item)">
-          <h1>Booking ID: {{item.booking_id}}</h1>
+<!--           <h1>Booking ID: {{item.booking_id}}</h1>
           <p><b>{{item.facility_name}}</b></p>
           <p>{{item.facility_address}}</p>
           <p><b>Phone:</b> {{item.facility_phone}}</p>
           <p><b>Booking for:</b> {{item.visit_date}}</p>
-          <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p>
+          <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p> -->
+          <p style="word-wrap: break-word; width:100%;"><b>{{item.visit_date}} {{item.chamber_start}} to {{item.chamber_end}}</b></p>
+          <p><b>at {{item.facility_name}}</b></p>
         </ion-item>
     </ion-list>
+    <div style="height:60px;"></div>
   </div>
   <div style="display:block;" #bookingDetails (click)="hideDetails()">
 <!--     <ion-item style="width:95%; border-color: rgb(250, 48, 81);" (click)="hideDetails()">
@@ -39,8 +42,8 @@
   -->    </div>
 </ion-content>
   
-<ion-content *ngIf="status==false" class="vertical-align-content">
+<ion-content *ngIf="status==false" class="vertical-align-content" style="margin-top: 30px;">
 
-    <h1>No booking history available.</h1>
+    <h1 style="width:100%; text-align:center;">No booking history available.</h1>
   
 </ion-content>

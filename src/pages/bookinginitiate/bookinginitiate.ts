@@ -7,7 +7,7 @@ import { LoadingController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import * as GlobalVars from '../../helper/globalvars';
 import { BookingConfig } from '../../helper/BookingConfig';
-import { HomePage } from '../home/home';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the BookinginitiatePage page.
@@ -49,17 +49,17 @@ export class BookinginitiatePage {
         chamber_id:['', Validators.compose([Validators.maxLength(30), Validators.pattern('[0-9 ]*')])],
         patient_id:['', Validators.compose([Validators.maxLength(30), Validators.pattern('[0-9 ]*')])],
         name:['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])],
-        address:['', Validators.compose([Validators.minLength(8), Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9\.\,\/ ]*'), Validators.required])],
+        address:['', Validators.compose([Validators.minLength(1), Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9 \.\,\//\n/\r ]*'), Validators.required])],
         age:['', Validators.compose([Validators.minLength(1), Validators.maxLength(3), Validators.pattern('[0-9]*'), Validators.required])],
-        sex:['', Validators.compose([Validators.minLength(1), Validators.maxLength(1), Validators.pattern('[mMfF ]*'), Validators.required])],
+        sex:['', Validators.compose([Validators.minLength(1), Validators.maxLength(1), Validators.pattern('[mMfFoO]*'), Validators.required])],
         phone:['', Validators.compose([Validators.minLength(10), Validators.maxLength(12), Validators.pattern('[0-9 ]*'), Validators.required])],
-        symptoms:['', Validators.compose([Validators.maxLength(200), Validators.pattern('[a-zA-Z0-9\.\,\/ ]*'), Validators.required])]
+        symptoms:['', Validators.compose([Validators.maxLength(200), Validators.pattern('[a-zA-Z0-9\.\'\,\/ ]*')])]
       });
   
     }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BookinginitiatePage');
+    //console.log('ionViewDidLoad BookinginitiatePage');
   }
 
   ionViewDidEnter()
@@ -67,7 +67,7 @@ export class BookinginitiatePage {
     this.storage.get(GlobalVars.access_type_key).then(val=>
     {
       
-      console.log(val);
+      //console.log(val);
       if(val==GlobalVars.access_type_profile)
       {
         //console.log("Profile Loaded Again");
@@ -77,7 +77,7 @@ export class BookinginitiatePage {
   //          let jsonData:string=JSON.stringify(result);
             //let myData = JSON.parse(result);
             let myData = result;
-            console.log("Stored Data constructor:",myData);
+            //console.log("Stored Data constructor:",myData);
             if(myData)
             {
               //console.log("Patient Photo Constructor",myData.facility_name);
@@ -89,18 +89,18 @@ export class BookinginitiatePage {
               this.chamber_end=myData.chamber_end;
             }
           }else{
-            console.log("No data in storage constructor");
+            //console.log("No data in storage constructor");
     //        this.storage.clear();      
     //        this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_home);
     //        this.navCtrl.push(HomePage);
           }
           this.storage.get(GlobalVars.patient_profile_storage_key).then(result=>{
-            console.log(result);
+            //console.log(result);
             if(result != null){
     //          let jsonData:string=JSON.stringify(result);
               //let myData = JSON.parse(result);
               let myData = JSON.parse(result).records[0];
-              console.log("Stored Data constructor:",myData);
+              //console.log("Stored Data constructor:",myData);
               if(myData)
               {
                 //console.log("Patient Photo Constructor",myData.facility_name);
@@ -110,10 +110,10 @@ export class BookinginitiatePage {
                 this.patient_phone=myData.patient_phone;
               }
             }else{
-              console.log("No data in storage constructor");
+              //console.log("No data in storage constructor");
       //        this.storage.clear();      
       //        this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_home);
-      //        this.navCtrl.push(HomePage);
+      //        this.navCtrl.push(LoginPage);
             }
         });
       });
@@ -122,14 +122,14 @@ export class BookinginitiatePage {
       }
       else
       {
-        console.log("Logged Out");
-        this.navCtrl.push(HomePage);          
+        //console.log("Logged Out");
+        this.navCtrl.push(LoginPage);          
       }
     });
   }
 
   saveBooking(){
-    console.log('Registration Success');
+    //console.log('Registration Success');
     let loader = this.loadingCtrl.create({
       content: "Please wait...",
     });
@@ -139,22 +139,22 @@ export class BookinginitiatePage {
 //      loader.present();
 
       let bookingConfigJson:string = JSON.stringify(this.bookingConfig);
-      console.log("Sent Data:",bookingConfigJson);
+      //console.log("Sent Data:",bookingConfigJson);
       let updURL = GlobalVars.END_POINT_SEND_BOOKING_DATA;
-      console.log(updURL);
+      //console.log(updURL);
       this.httpClient.post(updURL, bookingConfigJson,{
         headers: new HttpHeaders().set("Content-type", "application/json"),
         responseType:"text",
       
       })
       .subscribe( data => {
-        console.log('Booking saved',data);
+        //console.log('Booking saved',data);
 //        this.storage.set(GlobalVars.patient_profile_storage_key,profileConfigJson);
         loader.dismiss();
         //let jsonData:string=JSON.stringify(data);
         //console.log(jsonData);
         let myData = JSON.parse(data);
-        console.log(myData);
+        //console.log(myData);
         this.booking_id = myData.booking_id;
         this.queue_status = myData.queue_status;
         this.status = true;
@@ -163,8 +163,8 @@ export class BookinginitiatePage {
         // Errors will call this callback instead:
         err => {
           loader.dismiss();
-          console.log(bookingConfigJson);
-          console.log('Could not save Profile!',err);
+          //console.log(bookingConfigJson);
+          //console.log('Could not save Profile!',err);
         }
       );
       //console.log(JSON.stringify(this.ambulanceConfig));
@@ -184,7 +184,7 @@ export class BookinginitiatePage {
     this.bookingConfig.chamber_id = this.chamber_id;
     this.bookingConfig.symptoms = this.bookingForm.value.symptoms;
 //    this.profileConfig.password = this.editProfileForm.value.password;
-    console.log("Populated",this.bookingConfig);
+    //console.log("Populated",this.bookingConfig);
     
   }
 

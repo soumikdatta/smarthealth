@@ -7,5 +7,8 @@ export class FilterConfig{
     public speciality:string;
     public availability:string;
     public visit_date:string;
+    public facility:string;
+    public doctor:string;
+    public location:string;
 
 }

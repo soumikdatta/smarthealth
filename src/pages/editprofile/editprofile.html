@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar hideBackButton>
+  <ion-navbar color="mymenu">
     <ion-icon style="padding-left:2rem" ios="ios-grid" md="md-grid" menuToggle left></ion-icon>
     <ion-title>
         Edit Profile
@@ -11,23 +11,39 @@
  --> 
  <ion-content padding class="profile">
   <!--     <img style="align-items:center; margin: auto; display: block;" src="http://ef3be81e.ngrok.io/smarthealth/profile_pic/ITS-032_mistu.jpg" width="150"> -->
-    <img #PIMG style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{getImage()}}" width="150">
+    <div>
+      <div style="width:30%; float:left;">
+          <img #PIMG style="align-items:center; margin: auto; display: block; border-radius: 50%;" src="{{getImage()}}" width="150" (click)="editPhoto()">
+      </div>
+      <div style="width:60%; float:left; text-align:center; word-wrap: break-word; padding-left:5px;">
+        <h2>{{profileData.patient_name}}</h2>
+        <p>{{profileData.patient_email}}</p>
+        <h3><ion-icon name="ios-call-outline">&nbsp;&nbsp;{{profileData.patient_phone}}</ion-icon></h3>
+      </div>
+    </div>
     <form [formGroup]="editProfileForm" (ngSubmit)="saveProfile()">
-      <ion-item>
-        Patient ID: <ion-input value="Patient ID" #PID readonly></ion-input>
+      <ion-item style="display:none;">
+        Patient ID: <ion-input value="{{profileData.patient_id}}" #PID readonly></ion-input>
     </ion-item>
     <ion-item>
-      Name: <ion-input type="text" formControlName="name" value="Name" #PNAME ></ion-input>
+      Name: <ion-input type="text" formControlName="name" value="{{profileData.patient_name}}" placeholder="Name" #PNAME ></ion-input>
     </ion-item>
     <ion-item>
-      Address: <ion-input type="text" formControlName="address" value="Address" #PADD ></ion-input>
+      Address: <ion-textarea type="text" formControlName="address" value="{{profileData.patient_address}}" placeholder="Address" #PADD ></ion-textarea>
+    </ion-item>
+    <ion-label *ngIf="!editProfileForm.valid">
+      Only alphanumeric characters, comma, dot, space allowed
+    </ion-label>
+    <ion-item style="display:none;">
+      Email: <ion-input type="text" formControlName="email" value="{{profileData.patient_email}}" placeholder="Email" #PEMAIL ></ion-input>
+    </ion-item>
+    <ion-item style="display:none;">
+      Phone: <ion-input type="text" formControlName="phone" value="{{profileData.patient_phone}}" placeholder="Phone" #PPH ></ion-input>
     </ion-item>
     <ion-item>
-      Email: <ion-input type="text" formControlName="email" value="Email" #PEMAIL ></ion-input>
+      DoB: <ion-input type="date" formControlName="dob" value="{{profileData.patient_dob}}" #PDB ></ion-input>
     </ion-item>
-    <ion-item>
-      Phone: <ion-input type="text" formControlName="phone" value="Phone" #PPH ></ion-input>
-    </ion-item>
+  
     <button ion-button block type="submit" [disabled]="!editProfileForm.valid">
       <ion-icon name="archive"></ion-icon>&nbsp;&nbsp;&nbsp;Save
     </button>

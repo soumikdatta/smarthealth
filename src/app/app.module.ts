@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { File } from '@ionic-native/file';
 import { Transfer } from '@ionic-native/transfer';
@@ -33,6 +34,8 @@ import { BookinginitiatePage } from '../pages/bookinginitiate/bookinginitiate';
 import { TabsPage } from '../pages/tabs/tabs';
 import { BookingnowPage } from '../pages/bookingnow/bookingnow';
 import { BookingoldPage } from '../pages/bookingold/bookingold';
+import { SettingsPage } from '../pages/settings/settings';
+import { TransactionsPage } from '../pages/transactions/transactions';
 
 
 @NgModule({
@@ -47,7 +50,9 @@ import { BookingoldPage } from '../pages/bookingold/bookingold';
     BookinginitiatePage,
     TabsPage,
     BookingnowPage,
-    BookingoldPage
+    BookingoldPage,
+    SettingsPage,
+    TransactionsPage
   ],
   imports: [
     BrowserModule,
@@ -75,7 +80,9 @@ import { BookingoldPage } from '../pages/bookingold/bookingold';
     BookinginitiatePage,
     TabsPage,
     BookingnowPage,
-    BookingoldPage
+    BookingoldPage,
+    SettingsPage,
+    TransactionsPage
   ],
   providers: [
     Diagnostic,
@@ -88,6 +95,7 @@ import { BookingoldPage } from '../pages/bookingold/bookingold';
     FilePath,
     GoogleMaps,
     Geolocation,
+    ScreenOrientation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

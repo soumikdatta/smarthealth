@@ -125,7 +125,7 @@ export class ChangepicPage {
 
   public uploadImage() {
     // Destination URL
-    var url = GlobalVars.WORKING_SERVER + "upload.php?pid=" + this.PID;
+    var url = GlobalVars.WORKING_SERVER + "upload_patient.php?pid=" + this.PID;
    
     // File for Upload
     var targetPath = this.pathForImage(this.lastImage);
@@ -156,7 +156,7 @@ export class ChangepicPage {
         if(result != null){
   //          let jsonData:string=JSON.stringify(result);
           let myData = JSON.parse(result);
-         console.log("Stored Data constructor:",myData);
+         //console.log("Stored Data constructor:",myData);
           if(myData)
           {
             console.log("Patient Photo Constructor",myData.records[0].patient_photo);
@@ -166,7 +166,7 @@ export class ChangepicPage {
           this.storage.set(GlobalVars.patient_profile_storage_key,JSON.stringify(myData));
   //          this.PID.value=this.profileConfig.data;
         }else{
-          console.log("No data in storage constructor");
+          //console.log("No data in storage constructor");
   //        this.storage.clear();      
   //        this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_home);
   //        this.navCtrl.push(HomePage);

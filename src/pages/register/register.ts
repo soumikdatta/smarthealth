@@ -35,18 +35,19 @@ export class RegisterPage {
     private formBuilder: FormBuilder, private httpClient:HttpClient, public loadingCtrl: LoadingController) 
   {
     this.registrationForm = this.formBuilder.group({
-      userId:['', Validators.compose([Validators.minLength(5), Validators.maxLength(16), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])],
+      //userId:['', Validators.compose([Validators.minLength(5), Validators.maxLength(16), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])],
       name:['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])],
-      address:['', Validators.compose([Validators.minLength(8), Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9\.\,\/ ]*'), Validators.required])],
+      //address:['', Validators.compose([Validators.minLength(8), Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9\.\,\/ ]*'), Validators.required])],
 //      email:['', Validators.compose([Validators.maxLength(100), Validators.pattern('^[^\s]+\@[^\s]+\.[^\s]{2,}$'), Validators.required])],
       email:['', Validators.compose([Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9\.\@ ]*'), Validators.required])],
       phone:['', Validators.compose([Validators.minLength(10), Validators.maxLength(12), Validators.pattern('[0-9 ]*'), Validators.required])],
+      pin:['', Validators.compose([Validators.minLength(6), Validators.maxLength(6), Validators.pattern('[0-9]*'), Validators.required])],
       password:['', Validators.compose([Validators.minLength(8), Validators.maxLength(16), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])]
     });
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterPage');
+    //console.log('ionViewDidLoad RegisterPage');
 /*    this.storage.get(GlobalVars.patient_profile_storage_key).then(val=>
       {
         console.log('storage',val);
@@ -68,7 +69,7 @@ export class RegisterPage {
 
   register()
   {
-    console.log('Registration Success');
+    //console.log('Registration Success');
     let loader = this.loadingCtrl.create({
       content: "Please wait...",
     });
@@ -78,7 +79,7 @@ export class RegisterPage {
 //      loader.present();
 
       let profileConfigJson:string = JSON.stringify(this.profileConfig);
-      console.log("Sent Data:",profileConfigJson);
+      //console.log("Sent Data:",profileConfigJson);
       this.httpClient.post(GlobalVars.END_POINT_SEND_REGISTRATION_DATA, profileConfigJson,{
         headers: new HttpHeaders().set("Content-type", "application/json"),
         responseType:"text",
@@ -88,24 +89,26 @@ export class RegisterPage {
         
         if(JSON.parse(data).patient_id != "BLANK")
         {
-          console.log('Registration saved',data);
+          //console.log('Registration saved',data);
 //        this.storage.set(GlobalVars.patient_profile_storage_key,profileConfigJson);
           loader.dismiss();
-          this.gotoMainPage();
+          this.RSTAT = "Registration was successful! " + JSON.parse(data).message;
+          //this.gotoMainPage();
         }
         else
         {
           loader.dismiss();
-          console.log(profileConfigJson);
-          console.log('Could not save Registration!',data);
+          //console.log(profileConfigJson);
+          //console.log('Could not save Registration!',data);
           this.RSTAT = "Could not save Registration! " + JSON.parse(data).message;
         }
+        this.registrationForm.reset();
       },
         // Errors will call this callback instead:
         err => {
           loader.dismiss();
-          console.log(profileConfigJson);
-          console.log('Could not save Registration!',err);
+          //console.log(profileConfigJson);
+          //console.log('Could not save Registration!',err);
           this.RSTAT = "Could not save Registration! " + err;
         }
       );
@@ -121,8 +124,9 @@ export class RegisterPage {
     this.profileConfig.patient_address = this.registrationForm.value.address;
     this.profileConfig.patient_email = this.registrationForm.value.email;
     this.profileConfig.patient_phone = this.registrationForm.value.phone;
-    this.profileConfig.user_id = this.registrationForm.value.userId.toUpperCase();
+    this.profileConfig.user_id = this.registrationForm.value.userId;
     this.profileConfig.password = this.registrationForm.value.password;
+    this.profileConfig.patient_pin = this.registrationForm.value.pin;
     
   }
   

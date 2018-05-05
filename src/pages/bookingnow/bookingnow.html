@@ -14,8 +14,22 @@
 </ion-header>
 -->
 
-<ion-content padding>
-  <div style="display:block;" #bookingList>
+<ion-content padding style="margin-top: 30px;">
+    <ion-card #myCard style="display:none;">
+      <ion-card-content>
+          <div #directionsPanel style="display:none;">
+  
+          </div>
+      </ion-card-content>
+      <ion-fab top right (click)="closeCard()">
+        <button ion-fab color="primary">
+          <ion-icon name="ios-close-circle"></ion-icon>
+        </button>
+      </ion-fab>
+    </ion-card>
+    <div #map id="map">
+    </div>
+    <div style="display:block;" *ngIf="status" #bookingList>
     <ion-list *ngFor="let item of booking_model" style="display:block;">
         <ion-item style="width:95%; border-color: rgb(250, 48, 81);" (click)="showDetails(item)">
           <h1>Booking ID: {{item.booking_id}}</h1>
@@ -29,22 +43,30 @@
         </ion-item>
     </ion-list>
   </div>
-  <div style="display:block;" #bookingDetails (click)="hideDetails()">
-<!--     <ion-item style="width:95%; border-color: rgb(250, 48, 81);" (click)="hideDetails()">
-      <h1>Booking ID: {{item.booking_id}}</h1>
-      <p><b>{{item.facility_name}}</b></p>
-      <p>{{item.facility_address}}</p>
-      <p><b>Phone:</b> {{item.facility_phone}}</p>
-      <p><b>Booking for:</b> {{item.visit_date}}</p>
-      <p><b>Timing:</b> {{item.chamber_start}} to {{item.chamber_end}}</p>
-      <p><b>No. of Patients:</b> {{item.no_patient}}</p>
-      <p><b>Patient #: {{item.queue_status}}</b></p>
+  <div style="display:none;" #bookingDetails>
+     <ion-item style="width:95%; border-color: rgb(250, 48, 81);" (click)="hideDetails()">
+      <h1>Booking ID: {{bookingDetailsData.booking_id}}</h1>
+      <p></p>
+      <p><b>{{bookingDetailsData.facility_name}}</b></p>
+      <p>{{bookingDetailsData.facility_address}}</p>
+      <p><b>Phone:</b> {{bookingDetailsData.facility_phone}}</p>
+      <p></p>
+      <p><b>Symptoms:</b> {{bookingDetailsData.symptoms}}</p>
+      <p></p>
+      <p><b>Booking for:</b> {{bookingDetailsData.visit_date}}</p>
+      <p><b>Timing:</b> {{bookingDetailsData.chamber_start}} to {{bookingDetailsData.chamber_end}}</p>
+      <p></p>
+      <p><b>No. of Patients:</b> {{bookingDetailsData.no_patient}}</p>
+      <p><b>Patient #: {{bookingDetailsData.queue_status}}</b></p>
     </ion-item>
- -->    </div>
+
+    <button ion-button block style="width:95%; height:40px; color:white; background-color:green;" type="button" (click)="showMap(bookingDetailsData)">Directions</button>
+    <button ion-button block style="width:95%; height:40px; color:white; background-color:red;" type="button" (click)="cancelBooking(bookingDetailsData.booking_id)">Cancel</button>
+  </div>
 </ion-content>
 
-<ion-content *ngIf="status==false" class="vertical-align-content">
+<ion-content *ngIf="status==false" class="vertical-align-content" style="margin-top: 30px;">
 
-  <h1>No current booking available.</h1>
+  <h1 style="width:100%; text-align:center;">No current booking available.</h1>
 
 </ion-content>

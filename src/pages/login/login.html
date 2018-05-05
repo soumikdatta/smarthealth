@@ -17,7 +17,7 @@
 
 <ion-content text-center class="vertical-align-content">
   <ion-grid>
-    <img src="../assets/imgs/logo.jpg" width="60%" style="align-items: center">
+    <img src="./assets/imgs/logo.jpg" style="align-items: center;">
     <p></p>
     <p></p>
     <form [formGroup]="loginForm" (ngSubmit)="loginAuth()">
@@ -25,19 +25,18 @@
  -->          <ion-row>
             <ion-col>
                 <ion-item>
-                    <!--<ion-label floating>User ID</ion-label>-->
-                    <ion-input type="text" formControlName="userId" placeholder="User ID" highlight-color="balanced" style="background-image: url(../assets/imgs/userid.png); background-repeat: no-repeat; text-indent: 50px;"></ion-input>
+                    <ion-label floating><ion-icon name="ios-person"></ion-icon></ion-label>
+                    <ion-input type="text" formControlName="userId" placeholder="User ID" highlight-color="balanced" style="text-indent: 50px; border-radius: 25px;"></ion-input>
                 </ion-item>
-                  
+                <br>
                 <ion-item>
-                    <!--<ion-label floating>Password</ion-label>-->
-                    <ion-input type="password" formControlName="password" placeholder="Password" highlight-color="energized" style="background-image: url(../assets/imgs/password.png); background-repeat: no-repeat; text-indent: 50px;"></ion-input>
+                    <ion-label floating><ion-icon name="ios-lock"></ion-icon></ion-label>
+                    <ion-input type="password" formControlName="password" placeholder="Password" highlight-color="energized" style="text-indent: 50px;"></ion-input>
                 </ion-item>
                 <ion-label style="color:azure;">{{LSTAT}}</ion-label>
-                <button ion-button block style="background-color: rgb(248, 52, 52);" type="submit" [disabled]="!loginForm.valid">Login</button>
+                <button block style="background-color: rgb(248, 52, 52); color:azure; font-size: 30px; width:80%; height:60px; border-radius: 30px !important;" type="submit" [disabled]="!loginForm.valid">Login</button>
 
-                <ion-label style="color:azure;">New User?</ion-label>
-                <button ion-button block style="background-color:blueviolet;" type="button" (click)="gotoRegister()">Sign Up</button>
+                <ion-label style="color:azure;">New User? <label (click)="gotoRegister()">Sign Up</label></ion-label>
 
             </ion-col>
           </ion-row>

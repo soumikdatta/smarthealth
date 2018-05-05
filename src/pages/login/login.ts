@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Storage } from '@ionic/storage';
 import * as GlobalVars from '../../helper/globalvars';
 import { LoadingController } from 'ionic-angular';
@@ -35,11 +36,12 @@ export class LoginPage {
   private loginAuthURL="";
   private getPatientURL="";
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage:Storage, 
-    private formBuilder: FormBuilder, private httpClient:HttpClient, public loadingCtrl: LoadingController) 
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage:Storage,
+    private formBuilder: FormBuilder, private httpClient:HttpClient, public loadingCtrl: LoadingController,
+    private screenOrientation: ScreenOrientation) 
   {
     this.loginForm = this.formBuilder.group({
-      userId:['', Validators.compose([Validators.minLength(5), Validators.maxLength(16), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])],
+      userId:['', Validators.compose([Validators.minLength(5), Validators.pattern('[a-zA-Z0-9\.\@ ]*'), Validators.required])],
       password:['', Validators.compose([Validators.minLength(8), Validators.maxLength(16), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])]
     });
   }
@@ -49,20 +51,22 @@ export class LoginPage {
     this.storage.get(GlobalVars.access_type_key).then(val=>
       {
        
-        console.log(val);
+        //console.log(val);
         if(val==GlobalVars.access_type_profile)
         {
-          console.log("Profile Flow through Menu");
-          this.navCtrl.push(MymenuPage);          
+          //console.log("Profile Flow through Menu");
+          this.navCtrl.push(MenuPage);          
         }
         else
         {
-          console.log("Logged Out");
+          //console.log("Logged Out");
         }
       });
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    //console.log('ionViewDidLoad LoginPage');
+    //console.log(this.screenOrientation.type);
+    this.screenOrientation.lock('portrait');
   }
   
   loginAuth(){
@@ -76,38 +80,38 @@ export class LoginPage {
     this.httpClient.get(this.loginAuthURL).map((res: Response) => res).subscribe(data => {
       
         let jsonData:string=JSON.stringify(data);
-        console.log(jsonData);
+        //console.log(jsonData);
 //        this.storage.set(GlobalVars.patient_profile_storage_key,jsonData);  
           let myData = JSON.parse(jsonData);
-          console.log("LoginAuth Response",myData.records[0].password);
+          //console.log("LoginAuth Response",myData.records[0]);
 //        this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_profile);
 //        this.navCtrl.push(ProfilePage);
     
       if(this.loginForm.value.password==myData.records[0].password)
       {
-        console.log('Login Success');
+        //console.log('Login Success');
   /*      let loader = this.loadingCtrl.create({
           content: "Please wait...",
         });
   */      
           //console.log('storage',val);
             this.getPatientURL = GlobalVars.END_POINT_GET_PATIENT_PROFILE.concat("?patient_id=".concat(myData.records[0].patient_id));
-            console.log(this.getPatientURL);
+            //console.log(this.getPatientURL);
             this.httpClient.get(this.getPatientURL).map((res: Response) => res).subscribe(data => {
             
               let jsonData:string=JSON.stringify(data);
               this.storage.set(GlobalVars.patient_profile_storage_key,jsonData);  
-              console.log("patientProfile",jsonData);
+              //console.log("patientProfile",jsonData);
               this.storage.set(GlobalVars.access_type_key,GlobalVars.access_type_profile);
-              console.log("Menu from Login");
-              this.navCtrl.push(MymenuPage);
+              //console.log("Menu from Login");
+              this.navCtrl.push(MenuPage);
             });
 //      this.navCtrl.push(ProfilePage);
       }
       else
       {
         
-        console.log('Login failed');
+        //console.log('Login failed');
         this.LSTAT = "Wrong User ID / Password \n";
       }
     });

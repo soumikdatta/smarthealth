@@ -8,7 +8,7 @@ import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
 //import { ProfilePage } from '../profile/profile';
 import { EditprofilePage } from '../editprofile/editprofile';
-import { MenuPage } from '../menu/menu';
+//import { MenuPage } from '../menu/menu';
 import { MymenuPage } from '../mymenu/mymenu';
 import { MymapPage } from '../mymap/mymap';
 import 'rxjs/Rx';
